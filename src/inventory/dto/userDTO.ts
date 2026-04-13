@@ -9,9 +9,15 @@ export const userSchema = z.object({
   nascimento: z
     .string()
     .refine((val) => isDate(val), { error: 'Data inválida' })
-    .refine((val) => 2026 - parseInt(val.split('/')[2]) > 22, {
-      error: 'A idade mínima é de 22 anos',
-    }),
+    .refine(
+      (val) =>
+        parseInt(new Date().toString().split(' ')[3]) -
+          parseInt(val.split('/')[2]) >=
+        22,
+      {
+        error: 'A idade mínima é de 22 anos',
+      },
+    ),
   numero: z
     .string()
     .refine((val) => isPhone(val), { error: 'Número Inválido' })
