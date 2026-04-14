@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { UserService } from '../service/user.service';
@@ -17,6 +18,7 @@ import {
   type UserDTO,
 } from '../dto/userDTO';
 import { ZodValidationPipe } from '../../common/zod-validation.pipe';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('users')
 export class UserController {
@@ -28,11 +30,13 @@ export class UserController {
     return await this.userService.createUser(userDTOS);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   async findAllUsers() {
     return await this.userService.findAllUsers();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findUserId(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -40,6 +44,7 @@ export class UserController {
     return await this.userService.findUserId(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async updateUser(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -48,6 +53,7 @@ export class UserController {
     return await this.userService.updateUser(id, body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteUser(
     @Param('id', new ParseUUIDPipe()) id: string,

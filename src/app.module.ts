@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-// import { AppController } from './inventory/controller/app.controller';
-// import { AppService } from './inventory/service/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './inventory/modules';
+import { AuthModule } from './auth.module';
 
 @Module({
   imports: [
@@ -20,6 +19,7 @@ import { UsersModule } from './inventory/modules';
       entities: [__dirname + '/**/*.entity{.js,.ts}'],
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

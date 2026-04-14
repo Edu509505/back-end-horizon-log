@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { ZodValidationPipe } from 'src/common/zod-validation.pipe';
@@ -17,7 +18,9 @@ import {
   updateEmpresaSchema,
 } from '../dto/empresaDTO';
 import { EmpresaService } from '../service/empresa.service';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('empresa')
 export class EmpresaController {
   constructor(private readonly empresaService: EmpresaService) {}
