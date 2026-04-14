@@ -4,7 +4,7 @@ import * as z from 'zod';
 export const userSchema = z.object({
   name: z.string().min(3, 'Insira um nome inválido'),
   email: z.string().email('Insira um E-mail inválido'),
-  password: z.string().min(6, 'A senha deve ter no mínimo 6 digitos'),
+  password: z.string().min(8, 'A senha deve ter no mínimo 8 digitos'),
   cpf: z.string().refine((val) => isCPF(val), { error: 'CPF inválido' }),
   nascimento: z
     .string()
