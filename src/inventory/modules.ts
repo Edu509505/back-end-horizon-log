@@ -6,11 +6,14 @@ import { Users } from './entity/user.entity';
 import { Empresa } from './entity/empresa.entity';
 import { EmpresaController } from './controller/empresa.controller';
 import { EmpresaService } from './service/empresa.service';
+import { VerifyService } from './service/verify.service';
+import { VerifyController } from './controller/verify.controller';
+import { VerifyAccount } from './entity/verify_account.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Empresa, Users])],
-  controllers: [UserController, EmpresaController],
-  providers: [UserService, EmpresaService],
+  imports: [TypeOrmModule.forFeature([Empresa, Users, VerifyAccount])],
+  controllers: [UserController, EmpresaController, VerifyController],
+  providers: [UserService, EmpresaService, VerifyService],
   exports: [UserService],
 })
 export class UsersModule {}

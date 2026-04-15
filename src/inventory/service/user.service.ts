@@ -20,6 +20,7 @@ export class UserService {
 
     const newUser = this.userRepository.create({
       ...rest,
+      // is_active: false,
       password: hashedPassword,
     });
 

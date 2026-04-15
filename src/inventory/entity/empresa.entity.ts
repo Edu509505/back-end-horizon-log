@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Users } from './user.entity';
 
@@ -29,4 +31,10 @@ export class Empresa {
 
   @Column({ name: 'nomefantasia', nullable: false })
   nomefantasia!: string;
+
+  @CreateDateColumn({ name: 'createdAt' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updatedAt' })
+  updatedAt!: Date;
 }

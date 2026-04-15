@@ -22,6 +22,7 @@ export const userSchema = z.object({
     .string()
     .refine((val) => isPhone(val), { error: 'Número Inválido' })
     .optional(),
+  is_active: z.boolean().optional(),
 });
 
 export const updateUserSchema = userSchema.partial().extend({

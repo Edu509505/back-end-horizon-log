@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Empresa } from './empresa.entity';
+import { VerifyAccount } from './verify_account.entity';
 
 @Entity({ name: 'account' })
 export class Users {
@@ -16,8 +17,14 @@ export class Users {
   @OneToMany(() => Empresa, (empresa) => empresa.user)
   empresas!: Empresa[];
 
+  @OneToMany(() => VerifyAccount, (verify) => verify.user)
+  verify!: VerifyAccount[];
+
   @Column({ name: 'name', nullable: false })
   name!: string;
+
+  @Column({ default: false })
+  is_active!: boolean;
 
   @Column({ name: 'email', nullable: false, unique: true })
   email!: string;
@@ -35,8 +42,8 @@ export class Users {
   numero?: string;
 
   @CreateDateColumn({ name: 'createdAt' })
-  createdAt!: string;
+  createdAt!: Date;
 
   @UpdateDateColumn({ name: 'updatedAt' })
-  updatedAt!: string;
+  updatedAt!: Date;
 }
