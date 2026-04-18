@@ -9,6 +9,7 @@ import {
 import { Users } from './user.entity';
 import { VerificationType } from 'src/common/verification-type.enum';
 import { Exclude } from 'class-transformer';
+import { Pre_Registration } from './pre_registration.entity';
 @Entity({ name: 'verify_account' })
 export class VerifyAccount {
   @PrimaryGeneratedColumn('uuid')
@@ -17,11 +18,24 @@ export class VerifyAccount {
   @ManyToOne(() => Users, (users) => users.verify, {
     createForeignKeyConstraints: true,
   })
+  @ManyToOne(
+    () => Pre_Registration,
+    (pre_registration) => pre_registration.verify,
+    {
+      createForeignKeyConstraints: true,
+    },
+  )
   @JoinColumn({ name: 'user_id' })
   user!: Users;
 
-  @Column()
+  @JoinColumn({ name: 'pre_registration_id' })
+  pre_registration!: Pre_Registration;
+
+  @Column({ nullable: true })
   user_id!: string;
+
+  @Column({ nullable: true })
+  pre_registration_id!: string;
 
   @Exclude({ toPlainOnly: true })
   @Column({ name: 'code' })

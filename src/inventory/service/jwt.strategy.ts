@@ -9,8 +9,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'sua-chave-secreta-muito-louca',
+      secretOrKey: process.env.KEY_CRIP!,
     });
+
+    console.log('MINHA CHAVE NO STRATEGY', process.env.KEY_CRIP);
   }
   async validate(playload: any) {
     return { userId: playload.sub, email: playload.email };

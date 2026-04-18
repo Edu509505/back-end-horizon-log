@@ -8,10 +8,14 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+    console.log('Chave no Gerador 2: ', process.env.KEY_CRIP);
+  }
 
   async singIn(email: string, pass: string) {
     const user = await this.userService.findByEmail(email);
+
+    console.log('Chave no Gerador 3: ', process.env.KEY_CRIP);
 
     const isMatch = await bcrypt.compare(pass, user?.password || '');
 
@@ -19,10 +23,13 @@ export class AuthService {
       throw new UnauthorizedException('Credenciais inválidas');
     }
 
-    const playload = { sud: user?.id, username: user?.email };
+    const payload = { sud: user?.id, username: user?.email };
 
     return {
-      acces_token: await this.jwtService.signAsync(playload),
+      acces_token: await this.jwtService.signAsync(payload, {
+        secret: process.env.KEY_CRIP, // Forçando a chave aqui!
+      }),
+      // acces_token: await this.jwtService.signAsync(playload),
       user: {
         id: user?.id,
         name: user?.name,

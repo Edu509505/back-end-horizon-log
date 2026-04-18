@@ -11,12 +11,29 @@ export class VerifyController {
 
   @Post()
   @UsePipes(new ZodValidationPipe(verifySchema))
-  async createEmpresa(@Body() verifyDTO: VerifyDTO) {
+  async createVerify(@Body() verifyDTO: VerifyDTO) {
     return await this.verifyService.createCodeVerify(verifyDTO);
   }
 
+  // @Post('pre-registration')
+  // @UsePipes(new ZodValidationPipe(verifySchema))
+  // async createPreRegistration(@Body() verifyDTO: VerifyDTO) {
+  //   return await this.verifyService.createCodeOTPRregistration(verifyDTO);
+  // }
+
   @Post('check')
-  async checkCode(@Body() data: { user_id: string; code: string }) {
-    return await this.verifyService.checkCode(data.user_id, data.code);
+  async checkCode(
+    @Body()
+    data: {
+      code: string;
+      user_id: string;
+      pre_registration_id: string;
+    },
+  ) {
+    return await this.verifyService.checkCode(
+      data.code,
+      data.user_id,
+      data.pre_registration_id,
+    );
   }
 }

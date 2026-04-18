@@ -2,7 +2,8 @@ import { VerificationType } from 'src/common/verification-type.enum';
 import z from 'zod';
 
 export const verifySchema = z.object({
-  user_id: z.string().uuid('Id inválido'),
+  user_id: z.string().uuid('Id inválido').optional(),
+  pre_registration_id: z.string().optional(),
   code: z
     .string()
     .length(6, 'Código inválido, necessário 6 digitos')
