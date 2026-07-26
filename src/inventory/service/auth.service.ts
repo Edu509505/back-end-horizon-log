@@ -8,14 +8,14 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {
-    console.log('Chave no Gerador 2: ', process.env.KEY_CRIP);
-  }
+  ) {}
 
-  async singIn(email: string, pass: string) {
+ async singIn(email: string, pass: string) {
     const user = await this.userService.findByEmail(email);
 
-    console.log('Chave no Gerador 3: ', process.env.KEY_CRIP);
+    // const empresa = await this.userService.findByEmpresa(user?.id)
+
+    // console.log(empresa)
 
     const isMatch = await bcrypt.compare(pass, user?.password || '');
 
@@ -27,14 +27,18 @@ export class AuthService {
 
     return {
       acces_token: await this.jwtService.signAsync(payload, {
-        secret: process.env.KEY_CRIP, // Forçando a chave aqui!
+        secret: process.env.KEY_CRIP,
       }),
-      // acces_token: await this.jwtService.signAsync(playload),
       user: {
         id: user?.id,
         name: user?.name,
         email: user?.email,
+        cpf: user?.cpf,
+        nascimento: user?.nascimento,
+        numero: user?.numero,
+        is_active: user?.is_active,
+        empresas: user?.empresas
       },
-    };
+      };
   }
 }

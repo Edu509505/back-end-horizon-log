@@ -15,12 +15,6 @@ export class VerifyController {
     return await this.verifyService.createCodeVerify(verifyDTO);
   }
 
-  // @Post('pre-registration')
-  // @UsePipes(new ZodValidationPipe(verifySchema))
-  // async createPreRegistration(@Body() verifyDTO: VerifyDTO) {
-  //   return await this.verifyService.createCodeOTPRregistration(verifyDTO);
-  // }
-
   @Post('check')
   async checkCode(
     @Body()

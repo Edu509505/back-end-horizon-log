@@ -11,7 +11,7 @@ export class ZodValidationPipe implements PipeTransform {
   transform(value: unknown, metadata: ArgumentMetadata) {
     const result = this.schema.safeParse(value);
 
-    console.log(result.data);
+    // console.log("Cá estou", result.data);
 
     if (!result.success) {
       throw new BadRequestException({

@@ -11,8 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       secretOrKey: process.env.KEY_CRIP!,
     });
-
-    console.log('MINHA CHAVE NO STRATEGY', process.env.KEY_CRIP);
+    
   }
   async validate(playload: any) {
     return { userId: playload.sub, email: playload.email };

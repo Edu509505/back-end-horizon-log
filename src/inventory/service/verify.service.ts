@@ -88,8 +88,6 @@ export class VerifyService {
   }
 
   async checkCode(code: string, userId: string, pre_registration: string) {
-    console.log(pre_registration);
-
     const finalUserId =
       typeof userId === 'object' ? (userId as Users)?.id : userId;
 
@@ -110,10 +108,6 @@ export class VerifyService {
         },
       ],
     });
-
-    console.log('Buscando com Code:', code);
-    console.log('ID do User:', finalUserId || userId);
-    console.log('ID do Pré:', finalPreId || pre_registration);
 
     if (!verifyRegistry) {
       throw new UnauthorizedException('Código inválido ou inexistente.');
