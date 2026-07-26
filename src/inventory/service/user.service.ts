@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from '../entity/user.entity';
+import { Empresa } from '../entity/empresa.entity';
 import { UserDTO } from '../dto/userDTO';
 import * as bcrypt from 'bcrypt';
 
@@ -10,6 +11,8 @@ export class UserService {
   constructor(
     @InjectRepository(Users)
     private readonly userRepository: Repository<Users>,
+    @InjectRepository(Empresa)
+    private readonly corporationRepository: Repository<Empresa>
   ) {}
 
   async createUser(user: UserDTO): Promise<UserDTO> {
@@ -28,7 +31,11 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return this.userRepository.findOne({ where: { email } });
+    return this.userRepository.findOne({ where: { email }, relations: ['empresas'] });
+  }
+
+  async findByEmpresa(id: string): Promise<Empresa | null | undefined>{
+    return this.corporationRepository.findOneBy({ user_id: id })
   }
 
   async findAllUsers(): Promise<Users[]> {
@@ -37,11 +44,12 @@ export class UserService {
 
   async findUserId(id: string): Promise<Users> {
     const user = await this.userRepository.findOneBy({ id });
-
+    const corporation = await this.corporationRepository.findOneBy({ user_id: id });
+    
     if (!user) {
       throw new NotFoundException(`Usuário com o ID ${id} não encontrado`);
     }
-    return user;
+    return user ;
   }
 
   async updateUser(id: string, data: Partial<Users>) {
