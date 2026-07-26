@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Empresa } from './empresa.entity';
 import { VerifyAccount } from './verify_account.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'account' })
 export class Users {
@@ -29,6 +30,7 @@ export class Users {
   @Column({ name: 'email', nullable: false, unique: true })
   email!: string;
 
+  @Exclude({ toPlainOnly: true })
   @Column({ name: 'password', nullable: false })
   password!: string;
 
