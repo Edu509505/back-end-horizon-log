@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,6 +11,7 @@ import {
 import { Empresa } from './empresa.entity';
 import { VerifyAccount } from './verify_account.entity';
 import { Exclude } from 'class-transformer';
+import { Ordem_de_transporte } from './ordem_de_transporte.entity';
 
 @Entity({ name: 'account' })
 export class Users {
@@ -20,6 +23,9 @@ export class Users {
 
   @OneToMany(() => VerifyAccount, (verify) => verify.user)
   verify!: VerifyAccount[];
+
+  @OneToMany(() => Ordem_de_transporte, (ot) => ot.ordem_de_transporte_user)
+  ordensDeTransporte!: Ordem_de_transporte[];
 
   @Column({ name: 'name', nullable: false })
   name!: string;
