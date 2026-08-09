@@ -24,7 +24,7 @@ export class Empresa {
   user!: Users;
 
   // 2. Relação com Ordem de Transporte (1 empresa para várias O.Ts)
-  @OneToMany(() => Ordem_de_transporte, (ot) => ot.ordem_de_transporte_empresa)
+  @OneToMany(() => Ordem_de_transporte, (ot) => ot.empresa)
   ordensDeTransporte!: Ordem_de_transporte[];
 
   @Column({ nullable: true })

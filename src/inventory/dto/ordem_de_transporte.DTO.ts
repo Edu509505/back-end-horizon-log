@@ -4,21 +4,15 @@ export const ordemDeTransporteSchema = z.object({
   user_id: z.string().uuid({ message: 'UUID de usuário inválido' }),
   empresa_id: z.string().uuid({ message: 'UUID de empresa inválido' }),
   ordem_de_transporte: z.string(),
-  status: z.literal(
-    [
-      'entregue',
-      'concluido',
-      'transito',
-      'coleta',
-      'aguardando',
-      'ocorrencia',
-      'atraso',
-    ],
+  status: z.string().refine((val) => {
+    if(val === 'entregue' || 'concluido' || 'transito' || 'coleta' || 'aguardando' || 'ocorrencia' || 'atraso')return true
+  }
+    ,
     { error: 'Valor inserido inválido' },
   ),
   partida: z.string(),
   destino: z.string(),
-  empresa_destino: z.string().optional().nullable(),
+  empresa_destino: z.string().optional(),
 });
 
 export const updateOrdemDeTransporteSchema = ordemDeTransporteSchema
