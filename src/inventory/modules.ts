@@ -12,22 +12,27 @@ import { VerifyAccount } from './entity/verify_account.entity';
 import { Pre_Registration } from './entity/pre_registration.entity';
 import { PreRegistrationController } from './controller/pre_registration.controller';
 import { PreRegistrationService } from './service/pre_registration.service';
+import { MotoristaController } from './controller/motorista.controller';
+import { Motorista_Service } from './service/motorista.service';
+import { Motorista } from './entity/motorista.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Empresa, Users, VerifyAccount, Pre_Registration]),
+    TypeOrmModule.forFeature([Empresa, Users, VerifyAccount, Pre_Registration, Motorista]),
   ],
   controllers: [
     UserController,
     EmpresaController,
     VerifyController,
     PreRegistrationController,
+    MotoristaController
   ],
   providers: [
     UserService,
     EmpresaService,
     VerifyService,
     PreRegistrationService,
+    Motorista_Service
   ],
   exports: [UserService],
 })
