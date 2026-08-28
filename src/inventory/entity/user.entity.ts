@@ -24,7 +24,7 @@ export class Users {
   @OneToMany(() => VerifyAccount, (verify) => verify.user)
   verify!: VerifyAccount[];
 
-  @OneToMany(() => Ordem_de_transporte, (ot) => ot.ordem_de_transporte_user)
+  @OneToMany(() => Ordem_de_transporte, (ot) => ot.ordem_de_transporte)
   ordensDeTransporte!: Ordem_de_transporte[];
 
   @Column({ name: 'name', nullable: false })
