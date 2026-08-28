@@ -12,31 +12,55 @@ import { Empresa } from './empresa.entity';
 import { Users } from './user.entity';
 import { Nota_fiscal } from './nota_fiscal.entity';
 import { Conteiner } from './container.entity';
+import { Motorista } from './motorista.entity';
+import { Caminhao } from './caminhao.entity';
+import { Carreta } from './carreta.entity';
 
 @Entity({ name: 'ordem_de_transporte' })
 export class Ordem_de_transporte {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  // Relação com Empresa (Muitas O.Ts para 1 Empresa)
+  // RELAÇÃO DE MUITOS PARA UM N:1
   @ManyToOne(() => Empresa, (empresa) => empresa.ordensDeTransporte, {
     createForeignKeyConstraints: true,
   })
   @JoinColumn({ name: 'empresa_id' })
   empresa!: Empresa;
 
-  // Relação com Usuário (Muitas O.Ts para 1 Usuário)
-  @ManyToOne(() => Users, (user) => user.ordensDeTransporte,{
+  @ManyToOne(() => Users, (user) => user.ordensDeTransporte, {
     createForeignKeyConstraints: true,
   })
   @JoinColumn({ name: 'user_id' })
   user!: Users;
 
-  @OneToMany(() => Nota_fiscal, (nf) => nf.ordem_de_transporte_id)
+  @Column()
+  motorista_id!: string;
+
+  @ManyToOne(() => Motorista, (motorista) => motorista.ordemDeTransporte)
+  @JoinColumn({ name: 'motorista_id' })
+  motorista!: Motorista;
+
+  @ManyToOne(() => Caminhao, (caminhao) => caminhao.ordemDeTransporte)
+  @JoinColumn({ name: 'caminhao_id' })
+  caminhao!: Caminhao;
+
+  @ManyToOne(() => Carreta, (carreta) => carreta.ordemDeTransporte)
+  @JoinColumn({ name: 'carreta_id' })
+  carreta!: Carreta;
+
+  @ManyToOne(() => Conteiner, (conteiner) => conteiner.ordemDeTransporte, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'conteiner_id' })
+  conteiner!: Conteiner;
+
+  //RELAÇÃO DE UM PARA MUITOS 1:N
+
+  @OneToMany(() => Nota_fiscal, (nf) => nf.ordem_de_transporte)
   nota_fiscal!: Nota_fiscal[];
 
-  @OneToMany(() => Conteiner, (conteiner) => conteiner.ordem_de_transporte)
-  conteineres!: Conteiner[];
+  //COLUNAS COMUNS
 
   @Column({ nullable: true })
   user_id!: string;
@@ -44,7 +68,7 @@ export class Ordem_de_transporte {
   @Column({ nullable: true })
   empresa_id!: string;
 
-  @Column({ name: 'ordem_de_servico', nullable: false })
+  @Column({ name: 'ordem_de_transporte', nullable: false })
   ordem_de_transporte!: string;
 
   @Column({ name: 'status', nullable: false })

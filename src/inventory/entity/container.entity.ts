@@ -4,20 +4,30 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Ordem_de_transporte } from './ordem_de_transporte.entity';
+import { Empresa } from './empresa.entity';
 
 @Entity({ name: 'conteiner' })
 export class Conteiner {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  // A qual O.T este contêiner pertence nesta viagem
-  @ManyToOne(() => Ordem_de_transporte, (ordem) => ordem.conteineres)
-  @JoinColumn({ name: 'ordem_de_transporte_id' })
-  ordem_de_transporte!: Ordem_de_transporte;
+  // RELAÇÃO DE MUITOS PARA UM N:1
+
+  @ManyToOne(() => Empresa, (empresa) => empresa.conteiner, {
+    createForeignKeyConstraints: true,
+  })
+  @JoinColumn({ name: 'empresa_id' })
+  empresa!: Empresa;
+
+  @OneToMany(() => Ordem_de_transporte, (ot) => ot.conteiner)
+  ordemDeTransporte!: Ordem_de_transporte[];
+
+  //COLUNAS COMUNS
 
   @Column({ name: 'numero_identificacao', nullable: false }) // Ex: "MSCU1234567"
   numero_identificacao!: string;

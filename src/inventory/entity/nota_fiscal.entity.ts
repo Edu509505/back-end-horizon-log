@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Ordem_de_transporte } from './ordem_de_transporte.entity';
+import { Empresa } from './empresa.entity';
 
 @Entity({ name: 'nota_fiscal' })
 export class Nota_fiscal {
@@ -15,8 +16,12 @@ export class Nota_fiscal {
   id!: string;
 
   @ManyToOne(() => Ordem_de_transporte, (ot) => ot.nota_fiscal)
-  @JoinColumn({ name: 'ordem_de_transporte_id' })
-  ordem_de_transporte_id!: string;
+  @JoinColumn({ name: 'ordem_de_transporte' })
+  ordem_de_transporte!: string;
+
+  @ManyToOne(() => Empresa, (empresa) => empresa.nota_fiscal)
+  @JoinColumn({ name: 'empresa_id' })
+  empresa!: string;
 
   @Column({ name: 'numero_nota' })
   numero_nota!: string;

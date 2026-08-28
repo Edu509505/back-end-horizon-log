@@ -3,6 +3,7 @@ import * as z from 'zod';
 export const ordemDeTransporteSchema = z.object({
   user_id: z.string().uuid({ message: 'UUID de usuário inválido' }),
   empresa_id: z.string().uuid({ message: 'UUID de empresa inválido' }),
+  motorista_id: z.string().uuid({ message: 'UUID de motorista inválido' }),
   ordem_de_transporte: z.string(),
   status: z.string().refine((val) => {
     if(val === 'entregue' || 'concluido' || 'transito' || 'coleta' || 'aguardando' || 'ocorrencia' || 'atraso')return true

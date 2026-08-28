@@ -1,17 +1,35 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Carreta } from './carreta.entity';
-import { Motorista } from './motorista.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Ordem_de_transporte } from './ordem_de_transporte.entity';
+import { Empresa } from './empresa.entity';
 
 @Entity({ name: 'caminhao' })
 export class Caminhao {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @OneToMany(() => Carreta, (carreta) => carreta.caminhao_id)
-  carreta!: Carreta[];
+  @ManyToOne(() => Ordem_de_transporte, (ot) => ot.caminhao, {
+    createForeignKeyConstraints: true,
+  })
+  @JoinColumn({ name: 'ordem_de_transporte' })
+  ordem_de_transporte!: string;
 
-  @OneToMany(() => Motorista, (motorista) => motorista.caminhao_id)
-  motorista!: Motorista[];
+  @ManyToOne(() => Empresa, (empresa) => empresa.caminhao, {
+    createForeignKeyConstraints: true,
+  })
+  @JoinColumn({ name: 'empresa_id' })
+  empresa!: Empresa;
+
+  @OneToMany(() => Ordem_de_transporte, (ot) => ot.caminhao)
+  ordemDeTransporte!: Ordem_de_transporte[];
 
   @Column({ name: 'placa', nullable: false })
   placa!: string;
