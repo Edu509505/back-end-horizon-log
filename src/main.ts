@@ -1,26 +1,30 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ClassSerializerInterceptor } from '@nestjs/common';
+import { ClassSerializerInterceptor, Logger } from '@nestjs/common';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
 
-  // Leitura realizada APÓS a inicialização do módulo
   const frontendUrl = process.env.FRONT;
 
-  // Trava a aplicação na subida se a variável não existir (Ideal para Produção)
   if (!frontendUrl) {
-    throw new Error('FAILSAFE: A variável de ambiente FRONT não foi definida!');
+    logger.warn('Variável FRONT não definida. Definindo fallback ou aceitando requisições.');
   }
 
   app.enableCors({
-    origin: frontendUrl,
-    methods: 'GET, POST, PUT, DELETE',
+    origin: frontendUrl || '*', // Permite o front de prod ou fallback
+    methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS',
     credentials: true,
   });
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  await app.listen(process.env.PORT ?? 3333);
+
+  const port = process.env.PORT || 3333;
+
+  // IMPORTANTE: '0.0.0.0' obrigatorio para Docker / Guara Cloud
+  await app.listen(port, '0.0.0.0');
+  logger.log(`Aplicação rodando na porta ${port}`);
 }
 
 bootstrap();
