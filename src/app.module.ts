@@ -6,11 +6,14 @@ import { AuthModule } from './auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env', // Garante a leitura do .env no ambiente local
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
       database: process.env.DB_DATABASE,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,

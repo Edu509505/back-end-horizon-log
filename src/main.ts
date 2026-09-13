@@ -9,7 +9,9 @@ async function bootstrap() {
   const frontendUrl = process.env.FRONT;
 
   if (!frontendUrl) {
-    logger.warn('Variável FRONT não definida. Definindo fallback ou aceitando requisições.');
+    logger.warn(
+      'Variável FRONT não definida. Definindo fallback ou aceitando requisições.',
+    );
   }
 
   app.enableCors({
@@ -20,9 +22,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
-  const port = process.env.PORT || 3333;
-
-  // IMPORTANTE: '0.0.0.0' obrigatorio para Docker / Guara Cloud
+  const port = process.env.PORT ? Number(process.env.PORT) : 3333;
   await app.listen(port, '0.0.0.0');
   logger.log(`Aplicação rodando na porta ${port}`);
 }
