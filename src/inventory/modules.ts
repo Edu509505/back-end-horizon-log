@@ -15,6 +15,7 @@ import { PreRegistrationService } from './service/pre_registration.service';
 import { MotoristaController } from './controller/motorista.controller';
 import { Motorista_Service } from './service/motorista.service';
 import { Motorista } from './entity/motorista.entity';
+import { HealthController } from './controller/health.controller';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { Motorista } from './entity/motorista.entity';
     EmpresaController,
     VerifyController,
     PreRegistrationController,
-    MotoristaController
+    MotoristaController,
+    HealthController
   ],
   providers: [
     UserService,
